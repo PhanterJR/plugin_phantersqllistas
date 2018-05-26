@@ -64,7 +64,7 @@ viewBox="0 0 2480 2480"
 </svg>
 """)
 class PhanterSqlListas():
-    url_ajax=URL(current.request.application, "plugin_phantersqllistas", "echo_phantersqllistas")
+    url_ajax=URL(current.request.application, "plugin_phantersqllistas", 'echo_phantersqllistas')
     def __init__(self, db, nome_tabela, campo_padrao_pesquisa, filtro, campos=None, registro_por_pagina=50, pagina=1, url_ajax=url_ajax):
         self._db=db
         self._nome_tabela=nome_tabela
@@ -251,8 +251,8 @@ class PhanterSqlListas():
                                 $("#phantersqllistas-%(nome_tabela)s_paginacao_info").html("<div>"+response.dados.paginacao.info_paginas+"</div>");
                                 $("#phantersqllistas-paginacao_%(nome_tabela)s_container").attr("data-numero_paginas", response.dados.paginacao.numero_paginas);
                                 $("#phantersqllistas-paginacao_%(nome_tabela)s_container").attr("data-info_paginas", response.dados.paginacao.info_paginas);
-                                $("#phantersqllistas-alunos_input_paginacao").hide()
-                                $("#phantersqllistas-alunos_paginacao_info").show()
+                                $("#phantersqllistas-%(nome_tabela)s_input_paginacao").hide()
+                                $("#phantersqllistas-%(nome_tabela)s_paginacao_info").show()
                                 if(response.dados.paginacao.primeiro_registro=="ativo"){
                                     $("#phantersqllistas-%(nome_tabela)s_paginacao_primeiro_registro").removeClass("disabled");
                                     $("#phantersqllistas-%(nome_tabela)s_paginacao_primeiro_registro").addClass("actived");
