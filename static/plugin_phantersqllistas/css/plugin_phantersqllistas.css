@@ -1,0 +1,224 @@
+.phantersqllistas-campo {
+    padding: 0 10px;
+}
+.phantersqllistas-linha_menu_botao_svg img {
+    width: 18px;
+    height: auto;
+}
+.phantersqllistas-linha_menu_botao_svg img{
+   	fill:white;
+}
+.phantersqllistas-linha_menu_botao_svg img{
+    fill:black;
+}
+.dropleft .dropdown-toggle::before { content: none }
+.phantersqllistas-linha {
+    padding-right: 20px;
+}
+.phantersqllistas-linha_dados_container {
+    position: relative;
+}
+.phantersqllistas-linha_menu_container {
+    position: absolute;
+    right: 6px;
+    top: 15px;
+}
+.phantersqllistas-linha_menu_botao {
+    cursor: pointer;
+}
+.phantersqllistas-linha_menu_botao:hover .phantersqllistas-linha_menu_botao_svg svg .fil1{
+    fill: orange;
+}
+.phantersqllistas-linha_menu_item_container {
+    text-align: center;
+}
+.dropdown-item:hover {
+    background-color: orange;
+}
+.phantersqllistas-linha_cabecalho {
+    background-color: #cbefc6;
+    font-weight: bold;
+}
+.phantersqllistas-botao_pesquisar{
+    cursor: pointer;
+}
+.phantersqllistas-progress_container_fixed {
+    position: relative;
+    width: 100%;
+    height: 4px;
+}
+.phantersqllistas-progress {
+    position: absolute;
+    height: 4px;
+    display: none;
+    width: 100%;
+    background-color: #acece6;
+    border-radius: 2px;
+    background-clip: padding-box;
+    margin: 0.5rem 0 1rem 0;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+}
+.phantersqllistas-progress .determinate {
+  position: absolute;
+  background-color: inherit;
+  top: 0;
+  bottom: 0;
+  background-color: #26a69a;
+  transition: width .3s linear; }
+.phantersqllistas-progress .indeterminate {
+  background-color: #26a69a; }
+  .phantersqllistas-progress .indeterminate:before {
+    content: '';
+    position: absolute;
+    background-color: inherit;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    will-change: left, right;
+    -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+            animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite; }
+  .phantersqllistas-progress .indeterminate:after {
+    content: '';
+    position: absolute;
+    background-color: inherit;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    will-change: left, right;
+    -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+            animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    -webkit-animation-delay: 1.15s;
+            animation-delay: 1.15s; }
+
+@-webkit-keyframes indeterminate {
+0% {
+  left: -35%;
+  right: 100%; }
+60% {
+  left: 100%;
+  right: -90%; }
+100% {
+  left: 100%;
+  right: -90%; } }
+@keyframes indeterminate {
+0% {
+  left: -35%;
+  right: 100%; }
+60% {
+  left: 100%;
+  right: -90%; }
+100% {
+  left: 100%;
+  right: -90%; } }
+@-webkit-keyframes indeterminate-short {
+0% {
+  left: -200%;
+  right: 100%; }
+60% {
+  left: 107%;
+  right: -8%; }
+100% {
+  left: 107%;
+  right: -8%; } }
+@keyframes indeterminate-short {
+0% {
+  left: -200%;
+  right: 100%; }
+60% {
+  left: 107%;
+  right: -8%; }
+100% {
+  left: 107%;
+  right: -8%; } }
+.phantersqllistas-progress.actived{
+display: block;
+}
+.phantersqllistas-avisos {
+    text-align: center;
+    width: 100%;
+    color: red;
+    padding: 0 0 20px 0;
+    font-size: 1.5rem;
+}
+.botao_paginacao {
+    width: 17px;
+    height: auto;
+}
+.botao_paginacao .fil0{
+    fill:#007bff;
+}
+.disabled .botao_paginacao .fil0{
+    fill:grey;
+}
+.phantersqllistas-input_paginacao {
+    display: none;
+}
+.phantersqllistas-input_paginacao input{
+    text-align: center;
+}
+.phantersqllistas-input_paginacao {
+    padding: .71rem 1.0rem !important;
+    position: relative;
+}
+.phantersqllistas-paginacao_botao_ir svg {
+    width: 30px;
+    height: auto;
+    stroke: grey;
+    stroke-linecap: round;
+    stroke-width: 100;
+    fill: #9c9b9b;
+}
+.phantersqllistas-paginacao_botao_ir{
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.phantersqllistas-paginacao_botao_ir:hover svg{
+  fill:orange;
+  stroke: #ff7e00;
+
+}
+@keyframes pulando {
+    0%   {top: -30px;}
+    50%  {top: -35px;}
+    100% {top: -30px;}
+}
+.phantersqllistas-paginacao_mudar_pagina {
+
+    position: absolute;
+    top: -30px;
+    left: 0;
+    width: 100%;
+    animation-name: pulando;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+.phantersqllistas-progress_paginacao_container {
+
+    height: 50px;
+    position: relative;
+    width: 100%;
+
+}
+.phantersqllistas-icone svg {
+    width: 1em;
+    height: auto;
+}
+.phantersqllistas-linha_cabecalho .phantersqllistas-campo_db {
+    color: #007bff;
+    cursor: pointer;
+}
+.phantersqllistas-linha_cabecalho .phantersqllistas-campo_db:hover {
+    color: orange;
+    cursor: pointer;
+}
+.phantersqllistas-icone_sentido {
+    font-size: 0.5em;
+    margin-left: 5px;
+    position: absolute;
+    top: 8px;
+    left: -4px;
+}
