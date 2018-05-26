@@ -64,7 +64,7 @@ viewBox="0 0 2480 2480"
 </svg>
 """)
 class PhanterSqlListas():
-    url_ajax=URL(current.request.application, "plugin_phantersqllistas", 'echo_phantersqllistas')
+    url_ajax=URL(current.request.application, "plugin_phantersqllistas", "echo_phantersqllistas")
     def __init__(self, db, nome_tabela, campo_padrao_pesquisa, filtro, campos=None, registro_por_pagina=50, pagina=1, url_ajax=url_ajax):
         self._db=db
         self._nome_tabela=nome_tabela
