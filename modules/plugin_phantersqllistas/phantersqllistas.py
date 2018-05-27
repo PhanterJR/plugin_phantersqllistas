@@ -270,8 +270,8 @@ class PhanterSqlListas():
                                 $("#phantersqllistas-%(nome_tabela)s_paginacao_info").html("<div>"+response.dados.paginacao.info_paginas+"</div>");
                                 $("#phantersqllistas-paginacao_%(nome_tabela)s_container").attr("data-numero_paginas", response.dados.paginacao.numero_paginas);
                                 $("#phantersqllistas-paginacao_%(nome_tabela)s_container").attr("data-info_paginas", response.dados.paginacao.info_paginas);
-                                $("#phantersqllistas-alunos_input_paginacao").hide()
-                                $("#phantersqllistas-alunos_paginacao_info").show()
+                                $("#phantersqllistas-%(nome_tabela)s_input_paginacao").hide()
+                                $("#phantersqllistas-%(nome_tabela)s_paginacao_info").show()
                                 if(response.dados.paginacao.primeiro_registro=="ativo"){
                                     $("#phantersqllistas-%(nome_tabela)s_paginacao_primeiro_registro").removeClass("disabled");
                                     $("#phantersqllistas-%(nome_tabela)s_paginacao_primeiro_registro").addClass("actived");
