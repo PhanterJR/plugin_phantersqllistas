@@ -71,16 +71,21 @@ class PhanterSqlListas():
         self.id_phantersqllistas_container="phantersqllistas-main_%s" %nome_tabela
         self.id_phantersqllistas_avisos="phantersqllistas-avisos_%s" %nome_tabela
         self._campo_padrao_pesquisa=campo_padrao_pesquisa
-        self.campo_de_consulta=db[nome_tabela][campo_padrao_pesquisa].label
+        self._campos_db=db[nome_tabela].fields
+        if campo_padrao_pesquisa in self._campos_db:
+            self.campo_de_consulta=db[nome_tabela][campo_padrao_pesquisa].label
+        else:
+            self.campo_de_consulta=campo_padrao_pesquisa
         self._filtro=filtro
         self._campos=campos
         self._campo_ordenador="id"
         self._sentido="crescente"
         self._url_ajax=url_ajax
-        self._modificar_campo_cabecalho={} 
+        self._modificar_campo_cabecalho={}
+        self._modificar_campo_pesquisa={}
+        self._modificar_campo_ordenador={}
         self._modificar_campo_dados={}
         self._modificar_linhas_dados=None
-        self._campos_db=db[nome_tabela].fields
         self._links_menu=[]
         self._palavra=""
         self._numero_registros_por_pagina=registro_por_pagina
@@ -143,6 +148,20 @@ class PhanterSqlListas():
             self._modificar_campo_cabecalho[campo]=valor
         else:
             raise Exception("O campo especificado em modificarCampoCabecalho não foi especificado em setCampo e nem no instancimanto da classe")
+
+    def modificarCampoPesquisa(self, campo, filtro):
+        if campo in self._campos:
+            self._modificar_campo_pesquisa[campo]=valor
+        else:
+            raise Exception("O campo especificado em modificarCampoCabecalho não foi especificado em setCampo e nem no instancimanto da classe")
+
+
+    def modificarCampoOrdenador(self, campo, ordenador):
+        if campo in self._campos:
+            self._modificar_campo_ordenador[campo]=valor
+        else:
+            raise Exception("O campo especificado em modificarCampoCabecalho não foi especificado em setCampo e nem no instancimanto da classe")
+
 
     def modificarCampoDados(self, campo, valor):
         if campo in self._campos:
@@ -251,8 +270,8 @@ class PhanterSqlListas():
                                 $("#phantersqllistas-%(nome_tabela)s_paginacao_info").html("<div>"+response.dados.paginacao.info_paginas+"</div>");
                                 $("#phantersqllistas-paginacao_%(nome_tabela)s_container").attr("data-numero_paginas", response.dados.paginacao.numero_paginas);
                                 $("#phantersqllistas-paginacao_%(nome_tabela)s_container").attr("data-info_paginas", response.dados.paginacao.info_paginas);
-                                $("#phantersqllistas-%(nome_tabela)s_input_paginacao").hide()
-                                $("#phantersqllistas-%(nome_tabela)s_paginacao_info").show()
+                                $("#phantersqllistas-alunos_input_paginacao").hide()
+                                $("#phantersqllistas-alunos_paginacao_info").show()
                                 if(response.dados.paginacao.primeiro_registro=="ativo"){
                                     $("#phantersqllistas-%(nome_tabela)s_paginacao_primeiro_registro").removeClass("disabled");
                                     $("#phantersqllistas-%(nome_tabela)s_paginacao_primeiro_registro").addClass("actived");
@@ -353,7 +372,7 @@ class PhanterSqlListas():
         attr={"_id":"phantersqllistas-%s_input_pesquisar" %nome_tabela,
             "_type":"text",
             "_class":"form-control",
-            "_placeholder":"Pesquisar em %s" %(table[campo_padrao_pesquisa].label),
+            "_placeholder":"Pesquisar em %s" %(table[campo_padrao_pesquisa].label if campo_padrao_pesquisa in self._campos_db else campo_padrao_pesquisa),
             "_aria-label":"Pesquisar...",
             "_aria-describedby":"basic-addon2",
             "_autocomplete":"off"}
@@ -371,34 +390,40 @@ class PhanterSqlListas():
             self._campos_pesquisa=campos
         attr2['_data-campos_pesquisa']=str(self._campos_pesquisa)
         for f in self._campos_pesquisa:
-            if f in campos_db:
-                if self._db[self._nome_tabela][f].type=="string":
-                    tem_select=True
-                    html_select.append(OPTION(table[f].label , _value=f, _selected='selected' if f==campo_padrao_pesquisa else None))
-        html=CAT(
-            DIV(
+            if f in campos_db and self._db[self._nome_tabela][f].type=="string":
+                tem_select=True
+                html_select.append(OPTION(table[f].label , _value=f, _selected='selected' if f==campo_padrao_pesquisa else None))
+            elif f in self._modificar_campo_pesquisa.keys():
+                tem_select=True
+                html_select.append(OPTION(f , _value=f, _selected='selected' if f==campo_padrao_pesquisa else None))                
+
+        if tem_select:
+            html=CAT(
                 DIV(
                     DIV(
-                        INPUT(**attr),
                         DIV(
-                            SPAN("Pesquisar", _class="input-group-text", _id="basic-addon2"),
-                        **attr2), 
-                        _class="input-group mb-3"),
-                    _class='col-8'),
-                    DIV(
-                DIV(html_select,  _class="input-group") if tem_select else "",
-                _class='col-4'
-                ),
-            _class='phantersqllistas-caixa_pesquisa row'))
-        self.html_search=DIV(
-            html, 
-            DIV(DIV(
-                DIV(_class="indeterminate"),
-                _class='phantersqllistas-progress', _id="phantersqllistas-%s_progress" %self._nome_tabela), _class="phantersqllistas-progress_container_fixed"), 
-            DIV(
-                DIV(self._avisos, _id=self.id_phantersqllistas_avisos, _class="phantersqllistas-avisos%s" %(" actived" if self._avisos else "")),
-                _class="col-12"),
-            _class="phantersqllistas-pesquisa_container")
+                            INPUT(**attr),
+                            DIV(
+                                SPAN("Pesquisar", _class="input-group-text", _id="basic-addon2"),
+                            **attr2), 
+                            _class="input-group mb-3"),
+                        _class='col-8'),
+                        DIV(
+                    DIV(html_select,  _class="input-group") if tem_select else "",
+                    _class='col-4'
+                    ),
+                _class='phantersqllistas-caixa_pesquisa row'))
+            self.html_search=DIV(
+                html, 
+                DIV(DIV(
+                    DIV(_class="indeterminate"),
+                    _class='phantersqllistas-progress', _id="phantersqllistas-%s_progress" %self._nome_tabela), _class="phantersqllistas-progress_container_fixed"), 
+                DIV(
+                    DIV(self._avisos, _id=self.id_phantersqllistas_avisos, _class="phantersqllistas-avisos%s" %(" actived" if self._avisos else "")),
+                    _class="col-12"),
+                _class="phantersqllistas-pesquisa_container")
+        else:
+            self.html_search=""
 
     def _menuLinhas(self, row):
         
@@ -622,7 +647,10 @@ class PhanterSqlListas():
             selects=[db[nome_tabela][f] for f in campos if f in campos_db]
         else:
             selects=[db[nome_tabela].id]+[db[nome_tabela][f] for f in campos if f in campos_db]
-        if self._palavra and self._eh_filtro_padrao and db[nome_tabela][self._campo_padrao_pesquisa].type=="string":
+        if self._palavra and self._campo_padrao_pesquisa in self._modificar_campo_pesquisa:
+            query_modificada=self._modificar_campo_pesquisa[self._campo_padrao_pesquisa]
+            query_final=db(query_modificada).selects(*selects, **selects2)
+        elif self._palavra and db[nome_tabela][self._campo_padrao_pesquisa].type=="string":
             gerador1=[x.id for x in db(db[nome_tabela].id>0).select() if remover_acentos(self._palavra) in remover_acentos(x[self._campo_padrao_pesquisa])]
             gerador2=[x.id for x in db(db[nome_tabela].id.belongs(gerador1)).select() if remover_acentos(x[self._campo_padrao_pesquisa]).startswith(remover_acentos(self._palavra))]
             new_gerador=gerador2
