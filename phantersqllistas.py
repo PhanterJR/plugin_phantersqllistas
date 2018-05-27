@@ -146,14 +146,14 @@ class PhanterSqlListas():
 
     def modificarCampoPesquisa(self, campo, filtro):
         if campo in self._campos:
-            self._modificar_campo_pesquisa[campo]=valor
+            self._modificar_campo_pesquisa[campo]=filtro
         else:
             raise Exception("O campo especificado em modificarCampoCabecalho não foi especificado em setCampo e nem no instancimanto da classe")
 
 
     def modificarCampoOrdenador(self, campo, ordenador):
         if campo in self._campos:
-            self._modificar_campo_ordenador[campo]=valor
+            self._modificar_campo_ordenador[campo]=ordenador
         else:
             raise Exception("O campo especificado em modificarCampoCabecalho não foi especificado em setCampo e nem no instancimanto da classe")
 
@@ -637,7 +637,11 @@ class PhanterSqlListas():
         numero_de_registros_no_banco=self._numero_de_registros_no_banco
         inicio=(numero_registros_por_pagina*pagina_atual)-numero_registros_por_pagina
         fim=inicio+numero_registros_por_pagina
-        selects2={'limitby': (inicio,fim), 'orderby':db[nome_tabela][self._campo_ordenador] if self._sentido=='crescente' else ~db[nome_tabela][self._campo_ordenador]}
+        selects2={'limitby': (inicio,fim)}
+        if self._campo_ordenador in self._modificar_campo_ordenador:
+            selects2['orderby']=self._modificar_campo_ordenador[self._campo_ordenador]
+        else:
+            selects2['orderby']=db[nome_tabela][self._campo_ordenador] if self._sentido=='crescente' else ~db[nome_tabela][self._campo_ordenador]
         if "id" in campos:
             selects=[db[nome_tabela][f] for f in campos if f in campos_db]
         else:
